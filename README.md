@@ -1,12 +1,11 @@
 # React TodoMVC with Minimongo
 How do you manage data with React.js?
 
-Build the frontend like the backend - with a database.  React is a JavaScript library for creating user interfaces.  Minimongo is MongoDB, in your browser. When the data updates in the database, the changes automagically propagate to any React using those data.
-
-Check out the full package at 
+Build the frontend like the backend - with a database.  React is a JavaScript library for creating user interfaces.  Minimongo is MongoDB, in your browser. When the database changes, the UI automagically propagates to React.
 
 Minimongo is built by the [Meteor](http://docs.meteor.com/) team.  It is heavily tested and [well documented](http://docs.meteor.com/#/full/mongo_collection). This package is a standalone fork of MDG's [React mixin](https://github.com/meteor/react-packages/blob/devel/packages/react-meteor-data/meteor-data-mixin.jsx)
 
+This package shows how simple it can be.  It is adapted from the React Todo but has much less code.
 
 ## Installation
 
@@ -23,14 +22,14 @@ Navigate to  http://localhost:8080.
 ## Walkthrough
 
 ```
-import { LocalCollection, ReactiveDict } from 'meteor-standalone-react-mixin'
+import { Mongo, ReactiveDict } from 'meteor-standalone-react-mixin'
 
-var Todos = new LocalCollection('todos');
+var Todos = new Mongo.Collection('todos');
 ...
-var appState = new ReactiveDict.ReactiveDict;
+var appState = new ReactiveDict;
 ```
 
-`LocalCollection` is a reactive database collection very similar to MongoDB's collections.  Each item in the collection has a unique `_id` property. We create one to hold our `Todos`. 
+`Mongo.Collection` is a reactive database collection very similar to MongoDB's collections.  Each item in the collection has a unique `_id` property. We create one to hold our `Todos`. 
 
 `ReactiveDict` is like a javascript dictionary with getters and setters, and it is also reactive.  It keeps track of the application's state.  Any change in this will also cause a refresh in components that depend on it.
 
@@ -49,14 +48,14 @@ const TodoApp = React.createClass({
     getMeteorData: function () {
         var queryFilters = {};
         /* 
-          Any Reactive data sources queried in this function will trigger a refresh when they change. This view will watch LocalCollection queries and appState, a ReactiveDict
+          Any Reactive data sources queried in this function will trigger a refresh when they change. This view will watch Mongo.Collection queries and appState, a ReactiveDict
 
            Location of the page is passed in as a prop from React-Router, when props or state change, this function will run to see if its results change
         */
 
         var _location = this.props.location.pathname;
 
-        // MiniMongo/LocalCollections allow a rich query interface (nearly all //  of MongoDB's!) including sort statements
+        // Mongo.Collection allows a rich query interface (nearly all //  of MongoDB's!) including sort statements
         var sortStatement = {sort: {createdAt: -1}};
         if(_location === '/active') {
             queryFilters.completed = false;
@@ -239,7 +238,7 @@ The following fires on `onKeyUp` when editing a `Todo`
 
 `appState` is reactive too.  Its api has `.get(key)` and `.set(key, val)` methods. Only 1 `Todo` can be edited at a time.  `TodoApp` is observing its value and passing it to the `TodoItems`.  There are likely more elegant solutions, but this showcases its functionality.
 
-#### Observing a LocalCollection query outside of getMeteorData
+#### Observing a Collection query outside of getMeteorData
 
 Sometimes you don't want a whole React class just to watch a collection. This is when `.observeChanges` is handy.  In this case, the entire `Todos` collection is persisted to `localStorage` when a document is `added`, `changed`, or `removed`.
 

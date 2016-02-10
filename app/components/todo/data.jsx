@@ -1,7 +1,7 @@
-import { LocalCollection, ReactiveDict } from 'meteor-standalone-react-mixin'
+import { Mongo, ReactiveDict } from 'meteor-standalone-react-mixin'
 
 
-var Todos = new LocalCollection('todos');
+var Todos = new Mongo.Collection('todos');
 
 // Get any of the Todos that were in LocalStorage
 var loadSaved = function() {

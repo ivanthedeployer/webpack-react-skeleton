@@ -6,10 +6,10 @@ import { TodoItem } from './todo/todoItem.jsx'
 import { ReactiveMixin } from 'meteor-standalone-react-mixin'
 
 
-function is_server() {
-   return ! (typeof window != 'undefined' && window.document);
-}
-window.Meteor = {isServer: is_server()};
+// function is_server() {
+//    return ! (typeof window != 'undefined' && window.document);
+// }
+// window.Meteor = {isServer: is_server()};
 
 
 // Go home to all TODOs to begin with
