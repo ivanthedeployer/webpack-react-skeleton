@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>{%= o.htmlWebpackPlugin.options.title %}</title>
+    <title>React • TodoMVC</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    {% if (o.htmlWebpackPlugin.options.production) { %}
-    <link rel="stylesheet" href="app.{%=o.webpack.hash%}.css" media="all">
-    {% } %}
+    <link rel="stylesheet" href="/dist/styles.css" media="all">
+
   </head>
   <body class="index">
-    <div id='app'></div>
+    <section id="app" class="todoapp"></section>
+    <footer class="info">
+      <p>Double-click to edit a todo</p>
+      <p>Created by <a href="http://github.com/petehunt/">Ivan.The.Deployer</a></p>
+      <p>forked from <a href="http://github.com/petehunt/">petehunt</a></p>
+    </footer>
     {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
     <script src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
     {% } %}

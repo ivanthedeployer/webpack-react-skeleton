@@ -1,11 +1,19 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { Router } from 'react-router'
-import { routes } from './routes'
+import { Route, Router, browserHistory, RouteHandler, RoutingContext } from 'react-router'
+import { render } from 'react-dom'
 
-import './index.css'
+import TodoApp from './components/App.jsx'
 
-ReactDOM.render(
-  <Router>{routes}</Router>
+
+render(
+  <Router history={browserHistory}>
+    <Route component={TodoApp}>
+      <Route path="/" component={TodoApp}>
+        <Route path="all" component={TodoApp} />
+        <Route path="completed" component={TodoApp} />
+        <Route path="active" component={TodoApp} />
+      </Route>
+    </Route>
+  </Router>
 , document.getElementById('app')
 )
